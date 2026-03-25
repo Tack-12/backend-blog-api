@@ -1,9 +1,13 @@
 import { Router } from "express";
-import { mainPageRoutes } from "./mainPage.ts";
+import { loginRouter } from "./loginRoutes.ts";
+import { postsRouter } from "./blogRouter.ts";
 
 const indexRouter = Router();
 
 // for login - logout :
-indexRouter.use('/', mainPageRoutes);
+indexRouter.use('/', loginRouter);
+
+//For Posts/blogs
+indexRouter.use('/posts', postsRouter);
 
 export default indexRouter;

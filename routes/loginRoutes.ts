@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { signUp, signIn } from "../controller/mainController.ts";
 
-const mainPageRoutes = Router();
+const loginRouter = Router();
 
-mainPageRoutes.post("/signup", signUp)
+loginRouter.post("/signup", signUp)
 
 //Use passport-local to sign in:
-mainPageRoutes.post("/signin", signIn)
+loginRouter.post("/signin", signIn)
 
 
-export { mainPageRoutes };
+export { loginRouter };
