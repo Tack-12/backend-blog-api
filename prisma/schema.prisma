@@ -14,7 +14,12 @@ datasource db {
 
 enum Role {
   USER
-  ADMIN
+  AUTHOR
+}
+
+enum View{
+  PRIVATE
+  PUBLIC
 }
 
 model User {
@@ -35,6 +40,7 @@ model Posts {
   blog     String
   comments Comments[]
   time     DateTime   @default(now())
+  privacy  View       @default(PUBLIC)
 }
 
 model Comments {
