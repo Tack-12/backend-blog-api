@@ -12,11 +12,6 @@ datasource db {
   provider = "postgresql"
 }
 
-enum Role {
-  USER
-  AUTHOR
-}
-
 enum View{
   PRIVATE
   PUBLIC
@@ -27,7 +22,6 @@ model User {
   email    String     @unique
   u_name   String     @unique
   password String
-  role     Role       @default(USER)
   posts    Posts[]
   comments Comments[]
 }
@@ -48,8 +42,7 @@ model Comments {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   comment   String
-  likes     Int      @default(0)
   time      DateTime @default(now())
-  posts     Posts    @relation(fields: [postsP_id], references: [p_id], onDelete: Cascade)
-  postsP_id Int
+  posts     Posts    @relation(fields: [post_id], references: [p_id], onDelete: Cascade)
+  post_id Int
 }

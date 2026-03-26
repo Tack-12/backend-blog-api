@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express'
 import { prisma } from '../db/prisma.ts'
-import { Role, View } from '../generated/prisma/enums.ts';
+import { View } from '../generated/prisma/enums.ts';
 
 export const allPosts = async (req: Request, res: Response) => {
 
@@ -52,26 +52,26 @@ export const uploadPost = async (req: Request, res: Response) => {
         };
 
 
-        console.log(title, blog, privacy, authorId);
+        console.log(title, blog, privacy, Number(authorId));
 
         try {
                 await prisma.posts.create({
                         data: {
                                 title,
                                 blog,
-                                authorId,
+                                authorId: Number(authorId),
                                 privacy
                         }
                 });
         } catch (err) {
                 return res.json({
-                        message: "User Cannot be created",
+                        message: "Post Cannot be created",
                         err
                 })
         }
 
         return res.status(200).json({
-                message: "User has been Created",
+                message: "Post has been Created",
         })
 }
 
@@ -93,13 +93,13 @@ export const updatePost = async (req: Request, res: Response) => {
                 })
         } catch (err) {
                 return res.status(404).json({
-                        message: "User Not found",
+                        message: "Post Not found",
                         err
                 })
         }
 
         return res.status(200).json({
-                message: "User's Data Changed",
+                message: "Post's Data Changed",
         });
 };
 
@@ -115,12 +115,12 @@ export const deletePost = async (req: Request, res: Response) => {
                 });
         } catch (err) {
                 return res.status(404).json({
-                        message: "User Not Found",
+                        message: "Post Not Found",
                         err
                 })
         }
 
         return res.status(200).json({
-                message: "User Deleted Sucessfully"
+                message: "Post Deleted Sucessfully"
         });
 }

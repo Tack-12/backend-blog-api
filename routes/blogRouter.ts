@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { allPosts, deletePost, specificPost, updatePost, uploadPost } from '../controller/blogController.ts';
+import { commentsRouter } from './commentsRoutes.ts';
 
 const postsRouter = Router();
 
@@ -17,5 +18,9 @@ postsRouter.put("/:postId", updatePost);
 
 //Delete Post:
 postsRouter.delete("/:postId", deletePost);
+
+//BLOG Router for comments:
+
+postsRouter.use("/:postId/comments", commentsRouter);
 
 export { postsRouter };

@@ -7,7 +7,7 @@ const indexRouter = Router();
 // for login - logout :
 indexRouter.use('/', loginRouter);
 
-//For Posts/blogs
+//For Posts/blogs/comments on Posts:
 indexRouter.use('/posts', postsRouter);
 
 export default indexRouter;

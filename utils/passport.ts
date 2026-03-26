@@ -1,9 +1,14 @@
 import passport from "passport";
-import { Strategy as LocalStrategy } from "passport-local";
+import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
 import { prisma } from "../db/prisma.ts";
 import bcrypt from "bcryptjs";
 
-passport.use(new LocalStrategy(async (username, password, done) => {
+let options = {
+        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+        secretOrkey: process.env.SECRETKEY,
+};
+passport.use(new JwtStrategy(async (username, password, done) => {
+
 
         try {
                 const user = await prisma.user.findUnique({
