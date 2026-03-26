@@ -12,6 +12,7 @@ app.use(cors());
 
 //Used to parse the incoming form data into req.body:
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.use("/", indexRouter);
 

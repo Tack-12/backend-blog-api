@@ -1,12 +1,12 @@
 import type { Request, Response } from 'express'
-import { prisma } from '../db/prisma'
-import { Role } from '../generated/prisma/enums';
+import { prisma } from '../db/prisma.ts'
+import { Role, View } from '../generated/prisma/enums.ts';
 
 export const allPosts = async (req: Request, res: Response) => {
 
         const posts = await prisma.posts.findMany();
 
-        if (posts.length < 0) {
+        if (posts.length <= 0) {
                 return res.status(404).json({
                         message: "No Posts To Show",
                 });
@@ -42,18 +42,17 @@ export const specificPost = async (req: Request, res: Response) => {
 
 export const uploadPost = async (req: Request, res: Response) => {
 
-        let { title, blog, time, privacy } = req.body;
+        let { title, blog, privacy, authorId } = req.body;
 
         //Change privacy type:
         if (Number(privacy) === 1) {
-                privacy = Role.AUTHOR
+                privacy = View.PUBLIC
         } else {
-                privacy = Role.USER
+                privacy = View.PRIVATE
         };
 
-        //Get the token and use the author Id
-        //Get AuthorId:
-        const authorId: number = Number(req.params.userId);
+
+        console.log(title, blog, privacy, authorId);
 
         try {
                 await prisma.posts.create({
@@ -61,17 +60,17 @@ export const uploadPost = async (req: Request, res: Response) => {
                                 title,
                                 blog,
                                 authorId,
-                                time,
                                 privacy
                         }
                 });
         } catch (err) {
-                return res.send(404).json({
-                        message: "User Cannot be created"
+                return res.json({
+                        message: "User Cannot be created",
+                        err
                 })
         }
 
-        return res.send(200).json({
+        return res.status(200).json({
                 message: "User has been Created",
         })
 }
@@ -94,7 +93,8 @@ export const updatePost = async (req: Request, res: Response) => {
                 })
         } catch (err) {
                 return res.status(404).json({
-                        message: "User Not found"
+                        message: "User Not found",
+                        err
                 })
         }
 
@@ -115,7 +115,8 @@ export const deletePost = async (req: Request, res: Response) => {
                 });
         } catch (err) {
                 return res.status(404).json({
-                        message: "User Not Found"
+                        message: "User Not Found",
+                        err
                 })
         }
 

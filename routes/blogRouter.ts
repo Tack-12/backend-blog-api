@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { allPosts, deletePost, specificPost, updatePost, uploadPost } from '../controller/blogController';
+import { allPosts, deletePost, specificPost, updatePost, uploadPost } from '../controller/blogController.ts';
 
 const postsRouter = Router();
 
