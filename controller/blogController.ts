@@ -42,7 +42,9 @@ export const specificPost = async (req: Request, res: Response) => {
 
 export const uploadPost = async (req: Request, res: Response) => {
 
-        let { title, blog, privacy, authorId } = req.body;
+        let { title, blog, privacy } = req.body;
+
+        const authorId = Number(req.user.id);
 
         //Change privacy type:
         if (Number(privacy) === 1) {
@@ -50,9 +52,6 @@ export const uploadPost = async (req: Request, res: Response) => {
         } else {
                 privacy = View.PRIVATE
         };
-
-
-        console.log(title, blog, privacy, Number(authorId));
 
         try {
                 await prisma.posts.create({

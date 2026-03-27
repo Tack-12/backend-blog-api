@@ -26,9 +26,10 @@ export const fetchComments = async (req: Request, res: Response) => {
 
 export const postComments = async (req: Request, res: Response) => {
 
-        const { userId, comment } = req.body;
+        const { comment } = req.body;
         const p_id: number = Number(req.params.postId);
-        console.log(p_id);
+        const userId = Number(req.user.id);
+
         try {
                 await prisma.comments.create({
                         data: {
@@ -55,9 +56,6 @@ export const editComments = async (req: Request, res: Response) => {
         const cId = req.params.cId;
         const post_id = req.params.postId;
         const { comment } = req.body;
-
-        console.log(cId, comment)
-
 
         try {
                 await prisma.comments.update({

@@ -5,5 +5,5 @@ export const createJwt = function (user: any) {
 
         const token = jwt.sign({ user }, process.env.SECRETKEY!)
 
-        return ("Bearer" + token);
+        return ("Bearer " + token);
 }

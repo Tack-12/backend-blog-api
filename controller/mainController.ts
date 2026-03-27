@@ -5,7 +5,7 @@ import { createJwt } from "../utils/functions.ts";
 
 export const signUp = async (req: Request, res: Response) => {
 
-        const { email, u_name, role, password } = req.body;
+        const { email, u_name, password } = req.body;
 
         const user = await prisma.user.findFirst({
                 where: {
@@ -14,20 +14,21 @@ export const signUp = async (req: Request, res: Response) => {
         });
 
         if (!user) {
-                return res.status(403).json({ message: "User already Exists." })
+                const hashed_password = await bcrypt.hash(password, 10);
+
+                await prisma.user.create({
+                        data: {
+                                email,
+                                u_name,
+                                password: String(hashed_password),
+                        }
+                });
+
+
+                return res.status(200).json({ message: "User Created." })
         }
-        const hashed_password = bcrypt.hash(password, 10);
 
-        await prisma.user.create({
-                data: {
-                        email,
-                        u_name,
-                        password: String(hashed_password),
-                        role
-                }
-        });
-
-
+        return res.status(403).json({ message: "User already Exists." })
 };
 
 export const signIn = async (req: Request, res: Response) => {
