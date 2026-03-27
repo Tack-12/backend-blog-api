@@ -6,7 +6,6 @@ const indexRouter = Router();
 
 // for login - logout :
 indexRouter.use('/', loginRouter);
-
 //For Posts/blogs/comments on Posts:
 indexRouter.use('/posts', postsRouter);
 

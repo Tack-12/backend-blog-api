@@ -5,36 +5,27 @@ import bcrypt from "bcryptjs";
 
 let options = {
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-        secretOrkey: process.env.SECRETKEY,
+        secretOrKey: process.env.SECRETKEY!,
 };
-passport.use(new JwtStrategy(async (username, password, done) => {
 
+passport.use(new JwtStrategy(options, async (payload, done) => {
 
         try {
-                const user = await prisma.user.findUnique({
+                const user = prisma.user.findUnique({
                         where: {
-                                u_name: username
+                                id: Number(payload.sub),
                         }
                 });
 
                 if (!user) {
-                        return done(null, false, { message: "Cannot find User with that Credentials." });
-                }
-
-                const matches = await bcrypt.compare(password, user.password);
-
-                if (!matches) {
-                        return done(null, false, { message: "Wrong password/email" });
+                        return done(null, false);
                 }
 
                 return done(null, user);
         } catch (err) {
                 done(err);
         }
-
 }));
-
-
 
 passport.serializeUser((user, done) => {
         return done(null, user.id);
