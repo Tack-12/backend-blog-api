@@ -20,6 +20,6 @@ An api to power the fronted for a Blog app.
 | `/posts/:postId/comments/:commentId`   | DELETE      | Delete a comment (JWT required)                        | `commentId` in URL                                               | `{ "message": "Comment deleted successfully" }` |
 
 
-The following API is a learning project, and can be configured to match the required use cases. 
+The following API  can be configured to match the required use cases. 
 
 If any issues / suggestion , please feel free to reach out I am eager for some constructive critisicm. 
